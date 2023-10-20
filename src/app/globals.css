@@ -1,0 +1,33 @@
+:root {
+	/* CSS Vars */
+}
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+html,
+body {
+	max-width: 100vw;
+	overflow-x: hidden;
+	font-family: 'Roboto';
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+	:root {
+		/* CSS Var Overrides for Dark Mode */
+	}
+
+	html {
+		/* TODO: set up MUI dark/light theme */
+		color-scheme: dark;
+	}
+}
