@@ -12,14 +12,21 @@
 		"lint:code:fix": "next lint --fix",
 		"lint:formatting": "prettier . --check",
 		"lint:formatting:fix": "prettier . --write --log-level=silent",
-		"postinstall": "husky install"
+		"postinstall": "husky install",
+		"contracts:compile": "cd truffle && npx truffle compile",
+		"contracts:test": "cd truffle && npx truffle test --network development",
+		"contracts:deploy": "cd truffle && npx truffle migrate --reset --network development"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
 		"@fontsource/roboto": "^5.0.8",
+		"@infura/sdk": "^2.4.3",
+		"@metamask/sdk-react": "^0.10.0",
 		"@mui/icons-material": "^5.14.8",
 		"@mui/material": "^5.14.8",
+		"@openzeppelin/contracts": "^5.0.0",
+		"@truffle/hdwallet-provider": "^2.1.15",
 		"@types/node": "20.5.9",
 		"@types/react": "18.2.21",
 		"@types/react-dom": "18.2.7",
@@ -44,6 +51,7 @@
 		"eslint-plugin-prettier": "^5.0.0",
 		"eslint-plugin-simple-import-sort": "^10.0.0",
 		"husky": "^8.0.0",
-		"prettier": "^3.0.3"
+		"prettier": "^3.0.3",
+		"truffle-assertions": "^0.9.2"
 	}
 }
