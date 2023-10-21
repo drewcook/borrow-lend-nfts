@@ -5,13 +5,12 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
+import { MetaMaskUIProvider } from '@metamask/sdk-react-ui'
 import { Box, Container, ThemeProvider } from '@mui/material'
-import { WagmiConfig } from 'wagmi'
 
 import AppFooter from '@/components/AppFooter'
 import AppHeader from '@/components/AppHeader'
 import muiTheme from '@/lib/muiTheme'
-import wagmiConfig from '@/lib/wagmiConfig'
 
 const styles = {
 	main: {
@@ -28,7 +27,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en">
 			<body>
-				<WagmiConfig config={wagmiConfig}>
+				<MetaMaskUIProvider
+					debug={false}
+					sdkOptions={{
+						logging: {
+							developerMode: false,
+						},
+						checkInstallationImmediately: false, // This will automatically connect to MetaMask on page load
+						dappMetadata: {
+							name: 'Lend NFTs and Borrow',
+						},
+					}}
+				>
+					{/* <WagmiConfig config={wagmiConfig}> */}
 					<ThemeProvider theme={muiTheme}>
 						<AppHeader />
 						<Box component="main" sx={styles.main}>
@@ -36,7 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						</Box>
 						<AppFooter />
 					</ThemeProvider>
-				</WagmiConfig>
+					{/* </WagmiConfig> */}
+				</MetaMaskUIProvider>
 			</body>
 		</html>
 	)

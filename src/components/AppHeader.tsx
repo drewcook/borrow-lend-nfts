@@ -1,4 +1,5 @@
 'use client'
+import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from '@metamask/sdk-react-ui'
 import MenuIcon from '@mui/icons-material/Menu'
 import {
 	AppBar,
@@ -14,10 +15,8 @@ import {
 	Typography,
 } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import { useWeb3Modal } from '@web3modal/wagmi/react'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from 'wagmi'
 
 import formatAddress from '@/utils/formatAddress'
 
@@ -55,15 +54,15 @@ const styles = {
 }
 
 const AppHeader = () => {
-	const dappTitleText = 'WEB3DAPP'
+	const dappTitleText = 'LENDNFT'
 	// Navigation Pages
 	const pages = [
 		{
-			text: 'Dashboard',
-			href: '/dashboard',
+			text: 'Lend & Borrow',
+			href: '/',
 		},
 	]
-	const settings = ['Switch Network', 'Switch Wallet', 'Disconnect']
+	const settings = ['Disconnect']
 	// State
 	const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
@@ -72,7 +71,6 @@ const AppHeader = () => {
 	const { disconnect } = useDisconnect()
 	const { data: ensName } = useEnsName({ address })
 	const { data: ensAvatar } = useEnsAvatar({ name: ensName })
-	const { open } = useWeb3Modal()
 
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget)
@@ -86,9 +84,7 @@ const AppHeader = () => {
 	}
 
 	const handleCloseUserMenu = (setting: string) => {
-		if (setting === 'Switch Network') open({ view: 'Networks' })
-		if (setting === 'Switch Wallet') open()
-		if (setting === 'Disconnect') disconnect()
+		disconnect()
 		setAnchorElUser(null)
 	}
 
