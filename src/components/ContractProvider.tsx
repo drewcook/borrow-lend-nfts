@@ -1,16 +1,22 @@
 'use client'
 import { useSDK } from '@metamask/sdk-react'
-import { Chain, useAccount, useSwitchOrAddNetwork, WalletClient } from '@metamask/sdk-react-ui'
+import {
+	Chain,
+	useAccount,
+	usePublicClient,
+	useSwitchOrAddNetwork,
+	useWalletClient,
+	WalletClient,
+} from '@metamask/sdk-react-ui'
 import type { ReactNode } from 'react'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { getContract, parseEther } from 'viem'
-import { usePublicClient, useWalletClient } from 'wagmi'
 
 // import { PublicClient, useAccount, useDisconnect, useNetwork, WalletClient } from 'wagmi'
 import { COLLECTION_ADDRESS, TOKEN_URI, VAULT_ADDRESS } from '@/lib/constants'
 
-import COLLECTION_ABI from '../../truffle/build/contracts/LendNFT.json'
-import VAULT_ABI from '../../truffle/build/contracts/Vault.json'
+import CollectionContract from '../../truffle/build/contracts/LendNFT.json'
+import VaultContract from '../../truffle/build/contracts/Vault.json'
 
 // Types
 type ContractContextProps = {
@@ -21,7 +27,7 @@ type ContractContextProps = {
 	txError: string | null
 	mintNft: () => Promise<any>
 	readVault: (fnName: string) => Promise<any>
-	writeVault: (fnName: string, args: any[], value: number) => Promise<[unknown, string]>
+	writeVault: (fnName: string, args: any[], value: number) => Promise<[unknown, WagmiString]>
 	resetTxNotifications: () => void
 }
 type ContractProviderProps = {
@@ -57,7 +63,7 @@ export const ContractProvider = ({ children }: ContractProviderProps): JSX.Eleme
 	// Hook Data
 	const { chainId } = useSDK()
 	const { address } = useAccount()
-	const publicClient = usePublicClient()
+	const publicClient = usePublicClient({ chainId: 5 })
 	const { data, isError, isLoading } = useWalletClient({ chainId: 5 })
 	const { chains, switchOrAddNetwork } = useSwitchOrAddNetwork()
 
@@ -92,7 +98,9 @@ export const ContractProvider = ({ children }: ContractProviderProps): JSX.Eleme
 		setNftContract(
 			getContract({
 				address: COLLECTION_ADDRESS,
-				abi: COLLECTION_ABI,
+				// @ts-ignore
+				abi: CollectionContract.abi,
+				// @ts-ignore
 				publicClient,
 				// @ts-ignore
 				walletClient,
@@ -102,7 +110,9 @@ export const ContractProvider = ({ children }: ContractProviderProps): JSX.Eleme
 		setVaultContract(
 			getContract({
 				address: VAULT_ADDRESS,
-				abi: VAULT_ABI,
+				// @ts-ignore
+				abi: VaultContract.abi,
+				// @ts-ignore
 				publicClient,
 				// @ts-ignore
 				walletClient,
@@ -115,7 +125,7 @@ export const ContractProvider = ({ children }: ContractProviderProps): JSX.Eleme
 			const { request, result } = await publicClient.simulateContract({
 				account: address,
 				address: COLLECTION_ADDRESS,
-				abi: COLLECTION_ABI,
+				abi: CollectionContract.abi,
 				functionName: 'mint',
 				args: [TOKEN_URI],
 			})
@@ -137,7 +147,7 @@ export const ContractProvider = ({ children }: ContractProviderProps): JSX.Eleme
 			} else {
 				return await publicClient?.readContract({
 					address: VAULT_ADDRESS,
-					abi: VAULT_ABI,
+					abi: VaultContract.abi,
 					account: address,
 					functionName: valueName,
 				})
@@ -152,7 +162,7 @@ export const ContractProvider = ({ children }: ContractProviderProps): JSX.Eleme
 				const { request, result } = await publicClient.simulateContract({
 					account: address,
 					address: VAULT_ADDRESS,
-					abi: VAULT_ABI,
+					abi: VaultContract.abi,
 					functionName: fnName,
 					args: args,
 					value: parseEther(`${value}`),

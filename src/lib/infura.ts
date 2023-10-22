@@ -9,4 +9,6 @@ const auth = new Auth({
 	chainId: 5,
 })
 
-export const infura = new SDK(auth)
+const infura = new SDK(auth)
+
+export default infura

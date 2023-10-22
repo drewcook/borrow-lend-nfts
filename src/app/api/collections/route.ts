@@ -1,4 +1,4 @@
-import { infura } from '@/lib/infura'
+import infura from '@/lib/infura'
 
 export async function POST(req: Request) {
 	try {
@@ -6,7 +6,7 @@ export async function POST(req: Request) {
 		const result = await infura.api.getCollectionsByWallet({
 			walletAddress: address,
 		})
-		console.log({ result })
+		console.log('user collection holdings', { result })
 		return new Response(JSON.stringify({ data: result }))
 	} catch (error: any) {
 		return new Response(JSON.stringify({ error }))

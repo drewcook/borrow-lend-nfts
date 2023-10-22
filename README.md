@@ -26,6 +26,8 @@ The collection is a simplified collection contract that allows for any token URI
 
 Check out the [metadata](https://nft-lend.infura-ipfs.io/ipfs/QmZSvnED6peETuxUKC7MRdDyfNQiASGnC6WZApQGoSMgJW) and [image](https://nft-lend.infura-ipfs.io/ipfs/QmWkpQCmm6UhzhYtjZHQMk4Yh6QFBrJT7eouPZQKiKqgwe) via the Infura Dedicated Gateway!
 
+The collection can be seen on [OpenSea](https://testnets.opensea.io/assets/goerli/0xcacd07793e9cf8ab2e274f7f86ef6897166063f8/1).
+
 ## Libraries Used
 
 It uses the following Consensys Products:
