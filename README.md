@@ -9,6 +9,15 @@ There are some safeguards in place however. A user cannot borrow if the vault ba
 1. **Simple borrow & repay:** user deposits their NFT worth $100 and borrows $80. The token is locked in the contract until the user pays back $80.
 2. **Liquidation event**: A user deposits their $100 NFT and borrows $80. An admin mimics a volatile price change and sets the value $50. The user now must pay back $110 to unlock it. This breaks down to their $80 debt plus a $30 fee which is the difference between the new value and the debt position.
 
+## Contract Addresses
+
+There are two contracts, `Vault` and `LendNFT`. The Vault holds all the logic for lending an NFT and borrowing against it, and LendNFT is a simple ERC-721 collection. The contracts are deployed on Goerli.
+
+| Name        | Address                                                                                                                      |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| LendNFT.sol | [0xCacd07793e9Cf8Ab2E274f7F86EF6897166063f8](https://goerli.etherscan.io/address/0xcacd07793e9cf8ab2e274f7f86ef6897166063f8) |
+| Vault.sol   | [0x06e3a046C366AeF68606f74Ce6c67204192f0153](https://goerli.etherscan.io/address/0x06e3a046c366aef68606f74ce6c67204192f0153) |
+
 ## Libraries Used
 
 It uses the following libraries:

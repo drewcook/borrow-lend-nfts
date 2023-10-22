@@ -6,7 +6,7 @@ const auth = new Auth({
 	projectId: process.env.NEXT_PUBLIC_INFURA_API_KEY,
 	secretId: process.env.NEXT_PUBLIC_INFURA_API_KEY_SECRET,
 	privateKey: process.env.NEXT_PUBLIC_WALLET_PRIVATE_KEY,
-	chainId: 1,
+	chainId: process.env.NODE_ENV === 'production' ? 5 : 5777,
 })
 
 // Instantiate SDK

@@ -39,7 +39,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						},
 					}}
 				>
-					{/* <WagmiConfig config={wagmiConfig}> */}
 					<ThemeProvider theme={muiTheme}>
 						<AppHeader />
 						<Box component="main" sx={styles.main}>
@@ -47,7 +46,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						</Box>
 						<AppFooter />
 					</ThemeProvider>
-					{/* </WagmiConfig> */}
 				</MetaMaskUIProvider>
 			</body>
 		</html>
