@@ -4,7 +4,8 @@ const nextConfig = {
 		appDir: true,
 	},
 	webpack: config => {
-		config.externals.push('pino-pretty', 'lokijs', 'encoding')
+		config.resolve.fallback = { fs: false }
+		config.externals.push('pino-pretty', 'lokijs', 'encoding', 'fs')
 		return config
 	},
 }

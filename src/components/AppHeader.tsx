@@ -1,26 +1,10 @@
 'use client'
-import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from '@metamask/sdk-react-ui'
 import MenuIcon from '@mui/icons-material/Menu'
-import {
-	AppBar,
-	Avatar,
-	Box,
-	Button,
-	Container,
-	IconButton,
-	Menu,
-	MenuItem,
-	Toolbar,
-	Tooltip,
-	Typography,
-} from '@mui/material'
+import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import Link from 'next/link'
 import { useState } from 'react'
 
-import formatAddress from '@/utils/formatAddress'
-
-// import Link from 'next/link'
 import ConnectWalletButton from './ConnectWalletButton'
 
 const styles = {
@@ -48,9 +32,7 @@ const styles = {
 		textDecoration: 'none',
 	},
 	navigationLink: { my: 2, color: 'white', display: 'block' },
-	userConnectedButton: { px: 2, py: 0.75 },
 	userAvatar: { ml: 1, width: '24px', height: '24px', flexGrow: 0, fontSize: '12px' },
-	userMenu: { mt: '45px' },
 }
 
 const AppHeader = () => {
@@ -62,30 +44,16 @@ const AppHeader = () => {
 			href: '/',
 		},
 	]
-	const settings = ['Disconnect']
+
 	// State
 	const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
-	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
-	// Hooks
-	const { address, isConnected } = useAccount()
-	const { disconnect } = useDisconnect()
-	const { data: ensName } = useEnsName({ address })
-	const { data: ensAvatar } = useEnsAvatar({ name: ensName })
 
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget)
 	}
-	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElUser(event.currentTarget)
-	}
 
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null)
-	}
-
-	const handleCloseUserMenu = (setting: string) => {
-		disconnect()
-		setAnchorElUser(null)
 	}
 
 	return (
@@ -148,42 +116,7 @@ const AppHeader = () => {
 							</Link>
 						))}
 					</Box>
-
-					{/* Connected User Menu */}
-					{isConnected ? (
-						<>
-							<Tooltip title="Open settings">
-								<Button variant="outlined" onClick={handleOpenUserMenu} sx={styles.userConnectedButton}>
-									<Typography variant="caption">{ensName || formatAddress(address)}</Typography>
-									<Avatar alt="User ENS Avatar" src={`${ensAvatar}`} sx={styles.userAvatar} />
-								</Button>
-							</Tooltip>
-							<Menu
-								sx={styles.userMenu}
-								id="menu-appbar"
-								anchorEl={anchorElUser}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								keepMounted
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								open={Boolean(anchorElUser)}
-								onClose={handleCloseUserMenu}
-							>
-								{settings.map(setting => (
-									<MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-										<Typography textAlign="center">{setting}</Typography>
-									</MenuItem>
-								))}
-							</Menu>
-						</>
-					) : (
-						<ConnectWalletButton />
-					)}
+					<ConnectWalletButton />
 				</Toolbar>
 			</Container>
 		</AppBar>

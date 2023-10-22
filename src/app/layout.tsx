@@ -10,6 +10,7 @@ import { Box, Container, ThemeProvider } from '@mui/material'
 
 import AppFooter from '@/components/AppFooter'
 import AppHeader from '@/components/AppHeader'
+import { ContractProvider } from '@/components/ContractProvider'
 import muiTheme from '@/lib/muiTheme'
 
 const styles = {
@@ -33,19 +34,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						logging: {
 							developerMode: false,
 						},
-						checkInstallationImmediately: false, // This will automatically connect to MetaMask on page load
+						checkInstallationImmediately: false,
 						dappMetadata: {
 							name: 'Lend NFTs and Borrow',
 						},
 					}}
 				>
-					<ThemeProvider theme={muiTheme}>
-						<AppHeader />
-						<Box component="main" sx={styles.main}>
-							<Container maxWidth="xl">{children}</Container>
-						</Box>
-						<AppFooter />
-					</ThemeProvider>
+					<ContractProvider>
+						<ThemeProvider theme={muiTheme}>
+							<AppHeader />
+							<Box component="main" sx={styles.main}>
+								<Container maxWidth="xl">{children}</Container>
+							</Box>
+							<AppFooter />
+						</ThemeProvider>
+					</ContractProvider>
 				</MetaMaskUIProvider>
 			</body>
 		</html>

@@ -1,0 +1,20 @@
+{
+	"name": "NFT LEND",
+	"description": "This token can be used as collateral to borrow against on up to 80% of it's value.",
+	"image": "ipfs://QmWkpQCmm6UhzhYtjZHQMk4Yh6QFBrJT7eouPZQKiKqgwe",
+	"external_url": "https://borrow-lend-nfts.vercel.app/",
+	"attributes": [
+		{
+			"trait_type": "Collection Type",
+			"value": "Genesis"
+		},
+		{
+			"trait_type": "Collateral Usage",
+			"value": "Lending"
+		},
+		{
+			"trait_type": "Interest Bearing",
+			"value": "No"
+		}
+	]
+}
