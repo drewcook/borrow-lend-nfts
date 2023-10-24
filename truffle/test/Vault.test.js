@@ -54,6 +54,10 @@ contract('Vault', function (accounts) {
 			assert.equal(loan.active, true)
 		})
 
+		it('should not allow non-owner to deposit NFT', async function () {
+			await truffleAssert.reverts(vault.depositNft(nft.address, TOKEN_ID, { from: ADMIN }))
+		})
+
 		it('should not allow user to deposit NFT twice', async function () {
 			await truffleAssert.reverts(vault.depositNft(nft.address, TOKEN_ID, { from: DEPOSITOR }))
 		})

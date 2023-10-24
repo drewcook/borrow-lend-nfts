@@ -9,6 +9,7 @@ contract Vault is ERC721Holder {
 	/// Errors
 	//////////////////////////////////////
 
+	// error Vault__ApprovalForTokenTransferFailed();
 	error Vault__InvalidAmountSent();
 	error Vault__InvalidLoanAmount();
 	error Vault__LiquidityTooLow();
@@ -52,10 +53,10 @@ contract Vault is ERC721Holder {
 	//////////////////////////////////////
 
 	event LiquidityProvided(uint256 amount);
-	event NftValueUpdated(uint256 value);
-	event Withdraw(address withdrawer, uint256 amount);
+	event LiquidityWithdrawn(address withdrawer, uint256 amount);
 	event LoanBorrowed(address indexed user, uint256 amount);
 	event LoanRepaid(address indexed user, uint256 amount);
+	event NftValueUpdated(uint256 value);
 	event NftDeposited(address indexed user, address indexed collection, uint256 indexed tokenId);
 	event NftWithdrawn(address indexed user, address indexed collection, uint256 indexed tokenId);
 	event NftLiquidated(address indexed user, address indexed collection, uint256 indexed tokenId, uint256 amountOwed);
@@ -112,14 +113,14 @@ contract Vault is ERC721Holder {
 		emit NftValueUpdated(_nftValue);
 	}
 
-	function withdraw() external onlyAdmin {
+	function withdrawLiquidity() external onlyAdmin {
 		// Transfer contract balance to owner
 		uint256 withdrawAmount = address(this).balance;
 		(bool ok, ) = payable(s_admin).call{value: withdrawAmount}("");
 		if (!ok) {
 			revert Vault__TransferFailed();
 		}
-		emit Withdraw(s_admin, withdrawAmount);
+		emit LiquidityWithdrawn(s_admin, withdrawAmount);
 	}
 
 	function depositNft(address _collection, uint256 _tokenId) external onlyTokenOwner(_collection, _tokenId) {
@@ -132,6 +133,10 @@ contract Vault is ERC721Holder {
 
 		// Open up a new empty loan for the provided token
 		s_loans[msg.sender][_collection][_tokenId] = Loan(0, s_nftValue, true);
+
+		// Approve this contract to act as an operator on behalf of the token owner
+		// (bool success,) = _collection.delegatecall(abi.encodeWithSignature("approve(address,uint256)", address(this), _tokenId));
+		// if (!success) revert Vault__ApprovalForTokenTransferFailed();
 
 		// Transfer the token to the contract (locks it)
 		IERC721(_collection).safeTransferFrom(msg.sender, address(this), _tokenId);
@@ -243,6 +248,10 @@ contract Vault is ERC721Holder {
 	//////////////////////////////////////
 	/// Pure / View Functions
 	//////////////////////////////////////
+
+	function getLiquidity() public view returns (uint256) {
+		return address(this).balance;
+	}
 
 	function getAdmin() external view returns (address) {
 		return s_admin;
